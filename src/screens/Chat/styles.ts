@@ -52,7 +52,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     alignSelf: 'center',
-    // backgroundColor: colors.card,
     width: '100%',
     position: 'absolute',
     bottom: 0,
@@ -102,5 +101,9 @@ export default StyleSheet.create({
     color: colors.bg,
     fontFamily: Fonts.CairoBold,
     fontSize: 15,
+  },
+  focusedText: {
+    color: colors.primary,
+    fontFamily: Fonts.CairoBold,
   },
 });

@@ -6,6 +6,8 @@ import {
   Pressable,
   Keyboard,
   TextInput,
+  Animated,
+  TouchableOpacity,
 } from 'react-native';
 import React, { useState } from 'react';
 import styles from './styles';
@@ -17,12 +19,7 @@ import { useKeyboardAnimation } from 'react-native-keyboard-controller';
 export default function ChatScreen() {
   const [messages, setMessages] = useState([]);
 
-  const { height, progress } = useKeyboardAnimation();
-
-  const scale = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 2],
-  });
+  const { height } = useKeyboardAnimation();
 
   function renderMessage(message) {
     return (
@@ -55,20 +52,27 @@ export default function ChatScreen() {
     <SafeAreaView style={styles.container}>
       <Pressable onPress={Keyboard.dismiss}>
         <View style={styles.content}>
-          <View style={styles.header}>
-            <Text style={styles.title}>Helpy AI</Text>
-          </View>
-          {renderBody()}
-          <View style={styles.inputCont}>
-            <TextInput
-              style={styles.inputBox}
-              placeholder="Type your message here"
-              placeholderTextColor={colors.subtitle}
-            />
-            <Pressable style={styles.sendBtn}>
-              <Text style={styles.sendText}>Send</Text>
-            </Pressable>
-          </View>
+          <Animated.View
+            style={{ flex: 1, transform: [{ translateY: height }] }}
+          >
+            <View style={styles.header}>
+              <Text style={styles.title}>
+                <Text style={styles.focusedText}> Helpy </Text>
+                AI
+              </Text>
+            </View>
+            {renderBody()}
+            <View style={styles.inputCont}>
+              <TextInput
+                style={styles.inputBox}
+                placeholder="Type your message here"
+                placeholderTextColor={colors.subtitle}
+              />
+              <TouchableOpacity style={styles.sendBtn}>
+                <Text style={styles.sendText}>Send</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
         </View>
       </Pressable>
     </SafeAreaView>
