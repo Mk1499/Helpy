@@ -11,6 +11,9 @@ export default function RootStack() {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        cardStyle: {
+          backgroundColor: 'white',
+        },
       }}
     >
       <Stack.Screen name={ScreenNames.HomeScreen} component={HomeScreen} />
