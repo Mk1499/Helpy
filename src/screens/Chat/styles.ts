@@ -39,11 +39,12 @@ export default StyleSheet.create({
     fontSize: 25,
   },
   chatCont: {
-    height: '88%',
+    flexGrow: 1,
     paddingVertical: 10,
     paddingHorizontal: 16,
     justifyContent: 'flex-end',
     gap: 5,
+    paddingBottom: 100,
   },
   welcomeCont: {
     alignItems: 'center',
