@@ -72,7 +72,7 @@ export default StyleSheet.create({
   },
   userMsgText: {
     color: colors.darkText,
-    fontFamily: Fonts.Cairo,
+    fontFamily: Fonts.CairoMedium,
     fontSize: 15,
   },
   aiMsgCont: {
@@ -86,7 +86,7 @@ export default StyleSheet.create({
   },
   aiMsgText: {
     color: '#fff',
-    fontFamily: Fonts.Cairo,
+    fontFamily: Fonts.CairoMedium,
     fontSize: 15,
   },
   inputCont: {

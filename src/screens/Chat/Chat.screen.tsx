@@ -2,7 +2,6 @@ import {
   View,
   Text,
   Image,
-  Pressable,
   Keyboard,
   TextInput,
   Animated,
@@ -20,6 +19,7 @@ import { Message, MessageRole } from './types';
 import LoadingDots from 'react-native-loading-dots';
 import useAIProvider from '../../utils/hooks/AIProvider.hook';
 import BounceView from '../../components/BounceView.comp';
+import TypeWriter from 'react-native-typewriter';
 
 const mockMessages: Message[] = [
   {
@@ -88,6 +88,15 @@ export default function ChatScreen() {
       role === MessageRole.USER ? styles.userMsgCont : styles.aiMsgCont;
     const messageStyle =
       role === MessageRole.USER ? styles.userMsgText : styles.aiMsgText;
+
+    if (role === MessageRole.ASSISTANT)
+      return (
+        <View style={contStyle} key={id}>
+          <TypeWriter style={messageStyle} typing={1}>
+            {content}
+          </TypeWriter>
+        </View>
+      );
 
     return (
       <View style={contStyle} key={id}>

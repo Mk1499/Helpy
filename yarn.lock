@@ -1941,6 +1941,14 @@
   dependencies:
     undici-types "~7.16.0"
 
+"@types/react-native-typewriter@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@types/react-native-typewriter/-/react-native-typewriter-0.7.4.tgz#6f861dc300e5803d5ef8ed470ebd3e603ca2f690"
+  integrity sha512-zybDKXoK9l2kLJFvQtLD44eDfvCQfHWGL/P8ObHV9CbjG4Y/6dgB7C/s2R2w7YR1FwZNQ4zItn71ZyRaiA2gWg==
+  dependencies:
+    "@types/react" "*"
+    react-native "*"
+
 "@types/react-test-renderer@^19.1.0":
   version "19.1.0"
   resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-19.1.0.tgz#1d0af8f2e1b5931e245b8b5b234d1502b854dc10"
@@ -5428,7 +5436,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.8.1:
+prop-types@^15.5.7, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -5584,6 +5592,13 @@ react-native-screens@^4.20.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-typewriter@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-typewriter/-/react-native-typewriter-0.7.0.tgz#b370794f45366a9e9a47bdd40666198ebdce3bf2"
+  integrity sha512-lwlo8TemtZHgYH/EctYaCT5xMkgIk9ZQVyFm7qaY5b3MxveOd1v5g58oHNAkC9+vRJfdef+3dZoTJ9bM/+75/w==
+  dependencies:
+    prop-types "^15.5.7"
+
 react-native-worklets@^0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/react-native-worklets/-/react-native-worklets-0.7.2.tgz#acfbfe4f8c7f3b2889e7f394e4fbd7e78e167134"
@@ -5601,7 +5616,7 @@ react-native-worklets@^0.7.2:
     convert-source-map "2.0.0"
     semver "7.7.3"
 
-react-native@0.83.1:
+react-native@*, react-native@0.83.1:
   version "0.83.1"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.83.1.tgz#2c163cd055baa40166553487bada1eb7b9de154f"
   integrity sha512-mL1q5HPq5cWseVhWRLl+Fwvi5z1UO+3vGOpjr+sHFwcUletPRZ5Kv+d0tUfqHmvi73/53NjlQqX1Pyn4GguUfA==
