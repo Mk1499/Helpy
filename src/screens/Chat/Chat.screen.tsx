@@ -22,11 +22,8 @@ import LoadingDots from 'react-native-loading-dots';
 import useAIProvider from '../../utils/hooks/AIProvider.hook';
 import BounceView from '../../components/BounceView.comp';
 import TypeWriter from 'react-native-typewriter';
-<<<<<<< Updated upstream
 import { Model } from '../../utils/types';
-=======
 import { useNavigation } from '@react-navigation/native';
->>>>>>> Stashed changes
 
 const mockMessages: Message[] = [
   {
@@ -38,14 +35,7 @@ const mockMessages: Message[] = [
 ];
 
 export default function ChatScreen() {
-<<<<<<< Updated upstream
-=======
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
-  const [activeMessage, setActiveMessage] = useState<string>('');
-  const [isThinking, setIsThinking] = useState<boolean>(false);
-
   const { goBack } = useNavigation();
->>>>>>> Stashed changes
   const inputRef = useRef<TextInput>(null);
   const scrollRef = useRef<ScrollView>(null);
   const { height } = useKeyboardAnimation();
@@ -89,9 +79,11 @@ export default function ChatScreen() {
           scrollRef.current?.scrollToEnd({ animated: true });
         }, 300);
       })
-      .catch(() => {
-        // console.log('ERR : ', err);
-        // alert(err);
+      .catch((err: any) => {
+        console.log('ERR : ', err);
+        alert(
+          "Sorry, I couldn't process your request. Please try again. or select another model.",
+        );
       })
       .finally(() => {
         setIsThinking(false);
@@ -107,7 +99,13 @@ export default function ChatScreen() {
 
     if (role === MessageRole.ASSISTANT)
       return (
-        <View style={contStyle} key={id}>
+        <View
+          style={contStyle}
+          key={id}
+          onLayout={() => {
+            scrollRef.current?.scrollToEnd({ animated: true });
+          }}
+        >
           <TypeWriter style={messageStyle} typing={1}>
             {content}
           </TypeWriter>
@@ -176,6 +174,7 @@ export default function ChatScreen() {
     <SafeAreaView style={[styles.container]}>
       <View style={[styles.content]}>
         <Animated.View style={{ flex: 1, transform: [{ translateY: height }] }}>
+          {/* <Pressable onPress={() => Keyboard.dismiss()} style={styles.flex1}> */}
           <View style={styles.header}>
             <TouchableOpacity onPress={goBack} style={styles.backBtn}>
               <Text style={styles.backText}>{'< Back'} </Text>
@@ -185,6 +184,10 @@ export default function ChatScreen() {
               <Text style={styles.focusedText}> Helpy </Text>
               AI
             </Text>
+          </View>
+          {renderBody()}
+
+          <View style={styles.footerCont}>
             <FlatList
               data={MODELS}
               horizontal
@@ -193,10 +196,6 @@ export default function ChatScreen() {
               contentContainerStyle={styles.modelsList}
               renderItem={({ item }) => renderModelSelector(item)}
             />
-          </View>
-          {renderBody()}
-
-          <View style={styles.footerCont}>
             <View style={styles.inputCont}>
               <TextInput
                 ref={inputRef}
@@ -220,6 +219,7 @@ export default function ChatScreen() {
               </TouchableOpacity>
             </View>
           </View>
+          {/* </Pressable> */}
         </Animated.View>
       </View>
     </SafeAreaView>

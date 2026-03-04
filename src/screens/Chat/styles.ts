@@ -44,7 +44,7 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'flex-end',
     gap: 5,
-    paddingBottom: 100,
+    paddingBottom: 200,
   },
   welcomeCont: {
     alignItems: 'center',
@@ -178,12 +178,18 @@ export default StyleSheet.create({
     gap: 10,
   },
   activeModelOption: {
-    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+    borderWidth: 2,
   },
   modelLogo: {
     width: 20,
     height: 20,
     resizeMode: 'contain',
+  },
+  modelOptionText: {
+    color: colors.darkText,
+    fontFamily: Fonts.CairoMedium,
+    fontSize: 15,
   },
   backBtn: {
     position: 'absolute',
@@ -193,5 +199,8 @@ export default StyleSheet.create({
     color: colors.primary,
     fontFamily: Fonts.CairoBold,
     fontSize: 18,
+  },
+  flex1: {
+    flex: 1,
   },
 });

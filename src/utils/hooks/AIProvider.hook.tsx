@@ -13,13 +13,13 @@ export default function useAIProvider() {
     },
     {
       name: 'Gemma 7B',
-      code: 'google/gemma-7b-it',
+      code: 'stepfun/step-3.5-flash:free',
       logoURL:
         'https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/gemma-color.png',
     },
     {
       name: 'Mistral 7B',
-      code: 'mistralai/mistral-7b-instruct',
+      code: 'arcee-ai/trinity-mini:free',
       logoURL:
         'https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/mistral-color.png',
     },
@@ -66,6 +66,7 @@ export default function useAIProvider() {
   }
 
   async function callAIBotModel(msgs: Message[], modelCode: string) {
+    console.log('Requesting AI with model: ', modelCode);
     try {
       const res = await openRouterApi.post('/chat/completions', {
         model: modelCode,
@@ -76,6 +77,7 @@ export default function useAIProvider() {
         response: res.data.choices[0].message.content,
       };
     } catch (err) {
+      console.error('AI Request Error: ', err);
       const error = err as AxiosError;
       throw error;
     }
