@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../utils/constants/colors';
-import { Fonts } from '../../utils/constants/UIConsts';
+import { Fonts, ScreenDimensions } from '../../utils/constants/UIConsts';
 
 export default StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: 0.08 * ScreenDimensions.height,
     flex: 1,
     backgroundColor: colors.bg,
     paddingHorizontal: 16,

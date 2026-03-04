@@ -22,7 +22,11 @@ import LoadingDots from 'react-native-loading-dots';
 import useAIProvider from '../../utils/hooks/AIProvider.hook';
 import BounceView from '../../components/BounceView.comp';
 import TypeWriter from 'react-native-typewriter';
+<<<<<<< Updated upstream
 import { Model } from '../../utils/types';
+=======
+import { useNavigation } from '@react-navigation/native';
+>>>>>>> Stashed changes
 
 const mockMessages: Message[] = [
   {
@@ -34,6 +38,14 @@ const mockMessages: Message[] = [
 ];
 
 export default function ChatScreen() {
+<<<<<<< Updated upstream
+=======
+  const [messages, setMessages] = useState<Message[]>(mockMessages);
+  const [activeMessage, setActiveMessage] = useState<string>('');
+  const [isThinking, setIsThinking] = useState<boolean>(false);
+
+  const { goBack } = useNavigation();
+>>>>>>> Stashed changes
   const inputRef = useRef<TextInput>(null);
   const scrollRef = useRef<ScrollView>(null);
   const { height } = useKeyboardAnimation();
@@ -165,6 +177,9 @@ export default function ChatScreen() {
       <View style={[styles.content]}>
         <Animated.View style={{ flex: 1, transform: [{ translateY: height }] }}>
           <View style={styles.header}>
+            <TouchableOpacity onPress={goBack} style={styles.backBtn}>
+              <Text style={styles.backText}>{'< Back'} </Text>
+            </TouchableOpacity>
             <Image source={Robot} style={styles.logo} />
             <Text style={styles.title}>
               <Text style={styles.focusedText}> Helpy </Text>

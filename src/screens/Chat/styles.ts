@@ -185,4 +185,13 @@ export default StyleSheet.create({
     height: 20,
     resizeMode: 'contain',
   },
+  backBtn: {
+    position: 'absolute',
+    left: 16,
+  },
+  backText: {
+    color: colors.primary,
+    fontFamily: Fonts.CairoBold,
+    fontSize: 18,
+  },
 });
