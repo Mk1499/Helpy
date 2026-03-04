@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  FlatList,
+  Pressable,
 } from 'react-native';
 import React, { useRef, useState } from 'react';
 import styles from './styles';
@@ -20,6 +22,7 @@ import LoadingDots from 'react-native-loading-dots';
 import useAIProvider from '../../utils/hooks/AIProvider.hook';
 import BounceView from '../../components/BounceView.comp';
 import TypeWriter from 'react-native-typewriter';
+import { Model } from '../../utils/types';
 
 const mockMessages: Message[] = [
   {
@@ -31,14 +34,15 @@ const mockMessages: Message[] = [
 ];
 
 export default function ChatScreen() {
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
-  const [activeMessage, setActiveMessage] = useState<string>('');
-  const [isThinking, setIsThinking] = useState<boolean>(false);
-
   const inputRef = useRef<TextInput>(null);
   const scrollRef = useRef<ScrollView>(null);
   const { height } = useKeyboardAnimation();
-  const { callAIBot } = useAIProvider();
+  const { callAIBot, MODELS, callAIBotModel } = useAIProvider();
+
+  const [messages, setMessages] = useState<Message[]>(mockMessages);
+  const [activeMessage, setActiveMessage] = useState<string>('');
+  const [isThinking, setIsThinking] = useState<boolean>(false);
+  const [selectedModel, setSelectedModel] = useState(MODELS[0]);
 
   function handleSendMessage(content: string) {
     const newMessage: Message = {
@@ -60,7 +64,7 @@ export default function ChatScreen() {
 
   async function handleAIRequest(msgs: Message[]) {
     setIsThinking(true);
-    callAIBot(msgs)
+    callAIBotModel(msgs, selectedModel.code)
       .then(({ response }) => {
         const botMsg: Message = {
           id: Math.random().toString(36).substring(7),
@@ -141,6 +145,21 @@ export default function ChatScreen() {
     }
   }
 
+  function renderModelSelector(model: Model) {
+    return (
+      <Pressable
+        style={[
+          styles.modelOption,
+          selectedModel.code === model.code && styles.activeModelOption,
+        ]}
+        onPress={() => setSelectedModel(model)}
+      >
+        <Image source={{ uri: model.logoURL }} style={styles.modelLogo} />
+        <Text style={styles.modelOptionText}>{model.name}</Text>
+      </Pressable>
+    );
+  }
+
   return (
     <SafeAreaView style={[styles.container]}>
       <View style={[styles.content]}>
@@ -151,29 +170,40 @@ export default function ChatScreen() {
               <Text style={styles.focusedText}> Helpy </Text>
               AI
             </Text>
+            <FlatList
+              data={MODELS}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={item => item.code}
+              contentContainerStyle={styles.modelsList}
+              renderItem={({ item }) => renderModelSelector(item)}
+            />
           </View>
           {renderBody()}
-          <View style={styles.inputCont}>
-            <TextInput
-              ref={inputRef}
-              style={styles.inputBox}
-              placeholder="Type your message here"
-              placeholderTextColor={colors.subtitle}
-              onChangeText={t => setActiveMessage(t)}
-              onSubmitEditing={t => handleSendMessage(t.nativeEvent.text)}
-              multiline
-            />
-            <TouchableOpacity
-              style={styles.sendBtn}
-              onPress={() => handleSendMessage(activeMessage)}
-              disabled={!activeMessage || isThinking}
-            >
-              {isThinking ? (
-                <ActivityIndicator color={'#fff'} />
-              ) : (
-                <Text style={styles.sendText}>Send</Text>
-              )}
-            </TouchableOpacity>
+
+          <View style={styles.footerCont}>
+            <View style={styles.inputCont}>
+              <TextInput
+                ref={inputRef}
+                style={styles.inputBox}
+                placeholder="Type your message here"
+                placeholderTextColor={colors.subtitle}
+                onChangeText={t => setActiveMessage(t)}
+                onSubmitEditing={t => handleSendMessage(t.nativeEvent.text)}
+                multiline
+              />
+              <TouchableOpacity
+                style={styles.sendBtn}
+                onPress={() => handleSendMessage(activeMessage)}
+                disabled={!activeMessage || isThinking}
+              >
+                {isThinking ? (
+                  <ActivityIndicator color={'#fff'} />
+                ) : (
+                  <Text style={styles.sendText}>Send</Text>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
         </Animated.View>
       </View>

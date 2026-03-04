@@ -89,10 +89,10 @@ export default StyleSheet.create({
     fontFamily: Fonts.CairoMedium,
     fontSize: 15,
   },
-  inputCont: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+  footerCont: {
+    borderTopWidth: 1,
+    borderColor: colors.primary,
+    backgroundColor: '#fff',
     marginTop: 10,
     alignSelf: 'center',
     width: '100%',
@@ -100,10 +100,13 @@ export default StyleSheet.create({
     bottom: 0,
     paddingHorizontal: 16,
     paddingVertical: 10,
+  },
+  inputCont: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+
     gap: 20,
-    borderTopWidth: 1,
-    borderColor: colors.primary,
-    backgroundColor: '#fff',
   },
   inputBox: {
     height: 60,
@@ -141,8 +144,8 @@ export default StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
+    maxHeight: 60,
   },
   sendText: {
     color: colors.bg,
@@ -159,5 +162,27 @@ export default StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignSelf: 'flex-end',
+  },
+  modelsList: {
+    gap: 10,
+    paddingBottom: 20,
+  },
+  modelOption: {
+    paddingHorizontal: 10,
+    backgroundColor: colors.card,
+    height: 50,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 10,
+  },
+  activeModelOption: {
+    backgroundColor: colors.primary,
+  },
+  modelLogo: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
   },
 });
