@@ -1,10 +1,10 @@
 import { Dimensions } from 'react-native';
 
 export const Fonts = {
-  Cairo: 'Cairo-Regular',
-  CairoBold: 'Cairo-Bold',
-  CairoMedium: 'Cairo-Medium',
-  CairoLight: 'Cairo-Light',
+  Primary: 'Cairo-Regular',
+  Bold: 'Cairo-Bold',
+  Medium: 'Cairo-Medium',
+  Light: 'Cairo-Light',
 };
 
 export const ScreenDimensions = {
