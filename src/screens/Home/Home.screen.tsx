@@ -3,8 +3,16 @@ import React from 'react';
 import styles from './styles';
 import { banner, chatbot } from '../../assets/images';
 import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNames from '../../navigation/ScreenNames';
 
 export default function HomeScreen() {
+  const { navigate } = useNavigation();
+
+  function gotoChat() {
+    navigate(ScreenNames.ChatScreen);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.headerCont}>
@@ -19,7 +27,7 @@ export default function HomeScreen() {
         <Text style={styles.desc}>Your AI-powered assistant</Text>
       </View>
 
-      <TouchableOpacity style={styles.ctaBtn}>
+      <TouchableOpacity style={styles.ctaBtn} onPress={gotoChat}>
         <LinearGradient
           colors={['#14bb49', '#32b35a']}
           style={styles.btnGredient}

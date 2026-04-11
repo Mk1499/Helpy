@@ -1,0 +1,152 @@
+import { StyleSheet } from 'react-native';
+import { colors } from '../../utils/constants/colors';
+import { Fonts } from '../../utils/constants/UIConsts';
+
+export default StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    height: '100%',
+  },
+  header: {
+    width: '100%',
+    borderBottomWidth: 1,
+    borderColor: colors.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingBottom: 10,
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
+  },
+  backBtn: {
+    position: 'absolute',
+    left: 16,
+    padding: 8,
+  },
+  backText: {
+    color: colors.primary,
+    fontFamily: Fonts.Bold,
+    fontSize: 18,
+  },
+  title: {
+    fontFamily: Fonts.Bold,
+    fontSize: 25,
+    color: colors.primary,
+  },
+  focusedText: {
+    color: colors.darkText,
+  },
+
+  welcomeCont: {},
+  welcomeText: {
+    textAlign: 'center',
+    color: colors.primary,
+    fontSize: 22,
+    fontFamily: Fonts.Bold,
+  },
+  welcomeDesc: {
+    textAlign: 'center',
+    color: colors.subtitle,
+    fontSize: 20,
+    fontFamily: Fonts.Medium,
+  },
+  img: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginTop: 50,
+  },
+  chatCont: {},
+  userMsgCont: {},
+  userMsgText: {},
+  aiMsgCont: {},
+  aiMsgText: {},
+  footerCont: {
+    borderTopWidth: 1,
+    borderColor: colors.primary,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  inputCont: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 20,
+    marginTop: 10,
+  },
+  inputBox: {
+    flex: 5,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    color: colors.darkText,
+    fontSize: 20,
+    fontFamily: Fonts.Primary,
+    shadowColor: colors.primary,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  sendBtn: {
+    backgroundColor: colors.primary,
+    flex: 1,
+    alignItems: 'center',
+    height: '80%',
+    justifyContent: 'center',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  sendText: {
+    fontFamily: Fonts.Bold,
+    color: '#fff',
+    fontSize: 14,
+  },
+  modelsList: {
+    gap: 16,
+    marginBottom: 20,
+  },
+  modelOption: {
+    backgroundColor: colors.card,
+    paddingEnd: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    height: 50,
+  },
+  activeModelOption: {
+    borderWidth: 2,
+    borderColor: colors.primary,
+  },
+  modelLogo: {
+    width: 50,
+    height: 50,
+    resizeMode: 'contain',
+  },
+  modelOptionText: {},
+});
