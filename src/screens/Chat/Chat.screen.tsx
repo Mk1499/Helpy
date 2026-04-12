@@ -8,7 +8,7 @@ import {
   TextInput,
   Animated,
 } from 'react-native';
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
 import { Robot } from '../../assets/images';
@@ -16,6 +16,7 @@ import { Model } from './types';
 import { colors } from '../../utils/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useKeyboardAnimation } from 'react-native-keyboard-controller';
+import BouncedWrapper from '../../components/BouncedWrapper/BouncedWrapper.comp';
 
 const MODELS = [
   {
@@ -86,13 +87,13 @@ export default function ChatScreen() {
             </Text>
           </View>
 
-          <View>
+          <BouncedWrapper>
             <View style={styles.welcomeCont}>
               <Image style={styles.img} source={Robot} />
               <Text style={styles.welcomeText}>Welcome to Helpy AI</Text>
               <Text style={styles.welcomeDesc}>Your AI-powered assistant</Text>
             </View>
-          </View>
+          </BouncedWrapper>
 
           <View style={styles.footerCont}>
             <FlatList

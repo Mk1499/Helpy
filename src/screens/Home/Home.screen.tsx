@@ -5,9 +5,10 @@ import { banner, chatbot } from '../../assets/images';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from '../../navigation/ScreenNames';
+import BouncedWrapper from '../../components/BouncedWrapper/BouncedWrapper.comp';
 
 export default function HomeScreen() {
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<any>();
 
   function gotoChat() {
     navigate(ScreenNames.ChatScreen);
@@ -19,13 +20,14 @@ export default function HomeScreen() {
         <Image style={styles.headLogo} source={chatbot} />
         <Text style={styles.headerTitle}>Helpy AI</Text>
       </View>
-
-      <View style={styles.bodyCont}>
-        <Image style={styles.banner} source={banner} />
-        <Text style={styles.title}>Welcome To</Text>
-        <Text style={styles.appName}>Helpy AI</Text>
-        <Text style={styles.desc}>Your AI-powered assistant</Text>
-      </View>
+      <BouncedWrapper>
+        <View style={styles.bodyCont}>
+          <Image style={styles.banner} source={banner} />
+          <Text style={styles.title}>Welcome To</Text>
+          <Text style={styles.appName}>Helpy AI</Text>
+          <Text style={styles.desc}>Your AI-powered assistant</Text>
+        </View>
+      </BouncedWrapper>
 
       <TouchableOpacity style={styles.ctaBtn} onPress={gotoChat}>
         <LinearGradient
