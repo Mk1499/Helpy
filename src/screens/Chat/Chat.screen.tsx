@@ -7,16 +7,19 @@ import {
   Pressable,
   TextInput,
   Animated,
+  ScrollView,
 } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './styles';
 import { Robot } from '../../assets/images';
-import { Model } from './types';
+import { Message, MessageRole, Model } from './types';
 import { colors } from '../../utils/constants/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useKeyboardAnimation } from 'react-native-keyboard-controller';
 import BouncedWrapper from '../../components/BouncedWrapper/BouncedWrapper.comp';
+import TypeWriter from 'react-native-typewriter';
+import LoadingDots from 'react-native-loading-dots';
 
 const MODELS = [
   {
@@ -42,6 +45,11 @@ const MODELS = [
 export default function ChatScreen() {
   const [selectedModel, setSelectedModel] = useState(MODELS[0]);
   const [activeMessage, setActiveMessage] = useState<string>('');
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isThinking, setIsThinking] = useState(false);
+
+  const inputRef = React.useRef<TextInput>(null);
+  const scrollRef = React.useRef<ScrollView>(null);
 
   const { goBack } = useNavigation();
   const { height } = useKeyboardAnimation();
@@ -61,6 +69,111 @@ export default function ChatScreen() {
         <Text style={styles.modelOptionText}>{item.name}</Text>
       </Pressable>
     );
+  }
+
+  function renderMessage(message: Message) {
+    const contStyle =
+      message?.role === MessageRole.User
+        ? styles.userMsgCont
+        : styles.aiMsgCont;
+
+    const messageTextStyle =
+      message?.role === MessageRole.User
+        ? styles.userMsgText
+        : styles.aiMsgText;
+
+    if (message?.role === MessageRole.Assistant) {
+      return (
+        <View
+          key={message?.id}
+          style={contStyle}
+          onLayout={() =>
+            scrollRef.current?.scrollToEnd({
+              animated: true,
+            })
+          }
+        >
+          <TypeWriter
+            typing={1}
+            maxDelay={50}
+            minDelay={20}
+            style={messageTextStyle}
+          >
+            {message?.content}
+          </TypeWriter>
+        </View>
+      );
+    }
+
+    return (
+      <View key={message?.id} style={contStyle}>
+        <Text style={messageTextStyle}>{message?.content}</Text>
+      </View>
+    );
+  }
+
+  function renderMessages() {
+    return (
+      <ScrollView contentContainerStyle={styles.chatCont} ref={scrollRef}>
+        {messages.map(message => renderMessage(message))}
+        {isThinking && (
+          <View style={styles.loaderCont}>
+            <LoadingDots size={10} />
+          </View>
+        )}
+      </ScrollView>
+    );
+  }
+
+  function renderWelcomeView() {
+    return (
+      <BouncedWrapper>
+        <View style={styles.welcomeCont}>
+          <Image style={styles.img} source={Robot} />
+          <Text style={styles.welcomeText}>Welcome to Helpy AI</Text>
+          <Text style={styles.welcomeDesc}>Your AI-powered assistant</Text>
+        </View>
+      </BouncedWrapper>
+    );
+  }
+
+  function renderBody() {
+    if (messages.length === 0) {
+      return renderWelcomeView();
+    } else {
+      return renderMessages();
+    }
+  }
+
+  function handleSendMessage() {
+    if (!activeMessage.trim()) {
+      return;
+    }
+
+    setIsThinking(true);
+
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      content: activeMessage,
+      timestamp: Date.now(),
+      role: MessageRole.User,
+    };
+
+    setMessages([...messages, newMessage]);
+    inputRef.current?.clear();
+    setActiveMessage('');
+    scrollRef.current?.scrollToEnd({ animated: true });
+
+    setTimeout(() => {
+      const aiResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        content: `This is a response from ${selectedModel.name} "`,
+        timestamp: Date.now(),
+        role: MessageRole.Assistant,
+      };
+      setMessages(prevMessages => [...prevMessages, aiResponse]);
+      setIsThinking(false);
+    }, 3000);
   }
 
   return (
@@ -87,13 +200,7 @@ export default function ChatScreen() {
             </Text>
           </View>
 
-          <BouncedWrapper>
-            <View style={styles.welcomeCont}>
-              <Image style={styles.img} source={Robot} />
-              <Text style={styles.welcomeText}>Welcome to Helpy AI</Text>
-              <Text style={styles.welcomeDesc}>Your AI-powered assistant</Text>
-            </View>
-          </BouncedWrapper>
+          {renderBody()}
 
           <View style={styles.footerCont}>
             <FlatList
@@ -111,8 +218,12 @@ export default function ChatScreen() {
                 placeholderTextColor={colors.subtitle}
                 onChangeText={t => setActiveMessage(t)}
                 multiline
+                ref={inputRef}
               />
-              <TouchableOpacity style={styles.sendBtn}>
+              <TouchableOpacity
+                style={styles.sendBtn}
+                onPress={handleSendMessage}
+              >
                 <Text style={styles.sendText}>Send</Text>
               </TouchableOpacity>
             </View>

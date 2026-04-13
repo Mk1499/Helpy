@@ -63,11 +63,35 @@ export default StyleSheet.create({
     alignSelf: 'center',
     marginTop: 50,
   },
-  chatCont: {},
-  userMsgCont: {},
-  userMsgText: {},
-  aiMsgCont: {},
-  aiMsgText: {},
+  chatCont: {
+    padding: 16,
+    gap: 10,
+    paddingBottom: 200,
+  },
+  userMsgCont: {
+    backgroundColor: colors.card,
+    alignSelf: 'flex-start',
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  userMsgText: {
+    color: colors.darkText,
+    fontFamily: Fonts.Bold,
+    fontSize: 14,
+  },
+  aiMsgCont: {
+    backgroundColor: colors.primary,
+    alignSelf: 'flex-end',
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  aiMsgText: {
+    color: '#fff',
+    fontFamily: Fonts.Bold,
+    fontSize: 14,
+  },
   footerCont: {
     borderTopWidth: 1,
     borderColor: colors.primary,
@@ -149,4 +173,9 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   modelOptionText: {},
+  loaderCont: {
+    width: 80,
+    height: 80,
+    alignSelf: 'flex-end',
+  },
 });
