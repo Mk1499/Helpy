@@ -8,6 +8,7 @@ import {
   TextInput,
   Animated,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,32 +21,22 @@ import { useKeyboardAnimation } from 'react-native-keyboard-controller';
 import BouncedWrapper from '../../components/BouncedWrapper/BouncedWrapper.comp';
 import TypeWriter from 'react-native-typewriter';
 import LoadingDots from 'react-native-loading-dots';
+import useAIProvider from '../../utils/hooks/useAIProvider';
 
-const MODELS = [
-  {
-    name: 'gpt-3.5-turbo',
-    code: 'GPT-3.5 1',
-    logoURL:
-      'https://upload.wikimedia.org/wikipedia/commons/1/13/ChatGPT-Logo.png',
-  },
+const mockMessage: Message = {
+  id: '1',
+  content:
+    'Your name is Helpy, you are a helpful assistant that helps users with their queries and problems. Always be concise and clear in your answers.',
+  timestamp: Date.now(),
+  role: MessageRole.System,
+};
 
-  {
-    name: 'gpt-3.5-turbo',
-    code: 'GPT-3.5 2',
-    logoURL:
-      'https://upload.wikimedia.org/wikipedia/commons/1/13/ChatGPT-Logo.png',
-  },
-  {
-    name: 'gpt-3.5-turbo',
-    code: 'GPT-3.5 3',
-    logoURL:
-      'https://upload.wikimedia.org/wikipedia/commons/1/13/ChatGPT-Logo.png',
-  },
-];
 export default function ChatScreen() {
+  const { MODELS, callAIBotModel } = useAIProvider();
+
   const [selectedModel, setSelectedModel] = useState(MODELS[0]);
   const [activeMessage, setActiveMessage] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([mockMessage]);
   const [isThinking, setIsThinking] = useState(false);
 
   const inputRef = React.useRef<TextInput>(null);
@@ -115,7 +106,7 @@ export default function ChatScreen() {
   function renderMessages() {
     return (
       <ScrollView contentContainerStyle={styles.chatCont} ref={scrollRef}>
-        {messages.map(message => renderMessage(message))}
+        {messages.slice(1).map(message => renderMessage(message))}
         {isThinking && (
           <View style={styles.loaderCont}>
             <LoadingDots size={10} />
@@ -138,19 +129,17 @@ export default function ChatScreen() {
   }
 
   function renderBody() {
-    if (messages.length === 0) {
+    if (messages.length === 1) {
       return renderWelcomeView();
     } else {
       return renderMessages();
     }
   }
 
-  function handleSendMessage() {
+  async function handleSendMessage() {
     if (!activeMessage.trim()) {
       return;
     }
-
-    setIsThinking(true);
 
     const newMessage: Message = {
       id: Date.now().toString(),
@@ -159,21 +148,33 @@ export default function ChatScreen() {
       role: MessageRole.User,
     };
 
-    setMessages([...messages, newMessage]);
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
     inputRef.current?.clear();
     setActiveMessage('');
     scrollRef.current?.scrollToEnd({ animated: true });
+    await handleCallAIBotModel(updatedMessages);
+  }
 
-    setTimeout(() => {
-      const aiResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content: `This is a response from ${selectedModel.name} "`,
-        timestamp: Date.now(),
-        role: MessageRole.Assistant,
-      };
-      setMessages(prevMessages => [...prevMessages, aiResponse]);
-      setIsThinking(false);
-    }, 3000);
+  async function handleCallAIBotModel(msgs: Message[]) {
+    setIsThinking(true);
+    callAIBotModel(messages, selectedModel.code)
+      .then(({ response }) => {
+        const aiMessage: Message = {
+          id: Date.now().toString(),
+          content: response || 'Sorry, I could not generate a response.',
+          timestamp: Date.now(),
+          role: MessageRole.Assistant,
+        };
+        setMessages(prev => [...prev, aiMessage]);
+      })
+      ?.catch(err => {
+        console.log('Error calling AI Bot Model: ', err);
+        Alert.alert('Error', err);
+      })
+      .finally(() => {
+        setIsThinking(false);
+      });
   }
 
   return (
